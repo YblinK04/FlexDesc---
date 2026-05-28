@@ -2,16 +2,18 @@ import { NestFactory, HttpAdapterHost } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { PrismaClientExceptionFilter } from './prisma/prisma-client-exception.filter';
-import { configure as serverlessExpress } from '@vendia/serverless-express';
+import { Logger } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
-let cachedServer: any;
+const IS_VERCEL = process.env.VERCEL === '1' || process.env.NOW_REGION !== undefined;
+
+let cachedApp: any;
 
 async function bootstrap() {
-  if (!cachedServer) {
+  if (!cachedApp) {
     const app = await NestFactory.create(AppModule);
     
     app.setGlobalPrefix('api');
@@ -28,15 +30,22 @@ async function bootstrap() {
     });
 
     await app.init();
-    
-    const expressApp = app.getHttpAdapter().getInstance();
-    cachedServer = serverlessExpress({ app: expressApp });
+    cachedApp = app;
   }
-  return cachedServer;
+  return cachedApp;
 }
 
+if (!IS_VERCEL) {
+  const logger = new Logger('Bootstrap');
+  void bootstrap().then(async (app) => {
+    const port = parseInt(process.env.PORT || '3000', 10);
+    await app.listen(port);
+    logger.log(`🚀 FlexDesk Бэкенд локально запущен на http://localhost:${port}`);
+  });
+}
 
 export default async function handler(req: any, res: any) {
-  const server = await bootstrap();
-  return server(req, res);
+  const app = await bootstrap();
+  const expressInstance = app.getHttpAdapter().getInstance();
+  return expressInstance(req, res);
 }
