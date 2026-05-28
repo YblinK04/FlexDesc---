@@ -50,6 +50,17 @@ export function useDeskBookingState(deskId: string) {
     setSelectionMessage(null);
     clearSubmitError();
 
+    if (anchorHour === hour && endHourExclusive === null) {
+      setAnchorHour(null);
+      return;
+    }
+
+    if (anchorHour !== null && endHourExclusive !== null) {
+      setAnchorHour(hour);
+      setEndHourExclusive(null);
+      return;
+    }
+
     if (anchorHour === null) {
       setAnchorHour(hour);
       setEndHourExclusive(null);
@@ -57,23 +68,18 @@ export function useDeskBookingState(deskId: string) {
     }
 
     if (endHourExclusive === null) {
-      if (hour === anchorHour) {
-        setAnchorHour(null);
+      const { from, toExclusive } = rangeFromInclusivePair(anchorHour, hour);
+      
+      if (!isRangeFree(from, toExclusive, blockedHours)) {
+        setAnchorHour(hour);
         setEndHourExclusive(null);
         return;
       }
-      const { from, toExclusive } = rangeFromInclusivePair(anchorHour, hour);
-      if (!isRangeFree(from, toExclusive, blockedHours)) {
-        setSelectionMessage("В выбранном диапазоне есть занятые часы");
-        return;
-      }
+      
       setAnchorHour(from);
       setEndHourExclusive(toExclusive);
       return;
     }
-
-    setAnchorHour(hour);
-    setEndHourExclusive(null);
   }, [anchorHour, blockedHours, clearSubmitError, endHourExclusive]);
 
   const handleResetSelection = useCallback(() => {
@@ -113,7 +119,6 @@ export function useDeskBookingState(deskId: string) {
 
     const timeRangeString = `${String(anchorHour).padStart(2, "0")}:00 – ${String(toEx).padStart(2, "0")}:00`;
 
-    // Формируем параметры URL
     const queryParams = new URLSearchParams({
       name: guestName.trim(),
       phone: guestPhone.trim(),

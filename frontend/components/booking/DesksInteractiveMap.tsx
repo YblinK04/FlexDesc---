@@ -2,7 +2,7 @@
 
 import { Loader2 } from "lucide-react";
 import { useDesksMap } from "@/hooks/useDesksMap";
-import { DeskMapButton } from "@/components/ui/DeskMapButton"; 
+import { DeskMapButton } from "@/components/ui/DeskMapButton";
 import { ZoneContainer } from "@/components/ui/ZoneContainer";
 
 export function DesksInteractiveMap() {
@@ -34,25 +34,25 @@ export function DesksInteractiveMap() {
           Схема Пространства FlexDesk
         </h1>
         <p className="mt-2 text-xs sm:text-sm font-medium text-slate-400 max-w-xl leading-relaxed">
-          Интерактивный чертеж коворкинга. Кликните по свободному подсвеченному месту на карте для перехода к выбору часов.
+          Интерактивный чертеж коворкинга. Кликните по интересующему месту на карте, чтобы открыть календарную сетку бронирования.
         </p>
       </header>
 
       <div className="flex flex-wrap gap-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider border border-dark-border bg-dark-card/40 p-4 rounded-xl backdrop-blur-md w-full box-border">
         <div className="flex items-center gap-2.5">
-          <span className="h-3.5 w-3.5 rounded-md border border-brand bg-dark-card shadow-[0_0_12px_#ec4899] animate-pulse" />
-          <span className="text-slate-100">Доступно к брони</span>
+          <span className="h-3.5 w-3.5 rounded-md border border-brand bg-dark-card shadow-[0_0_12px_#ec4899]" />
+          <span className="text-slate-100">Свободен / Кликабелен</span>
         </div>
         <div className="flex items-center gap-2.5">
-          <span className="h-3.5 w-3.5 rounded-md border border-red-950 bg-red-950/20 shadow-inner opacity-40" />
-          <span className="text-slate-500">Занято гостями</span>
+          <span className="h-3.5 w-3.5 rounded-md border border-red-900 bg-red-950/40 shadow-inner" />
+          <span className="text-slate-500">Занят прямо сейчас (Но можно забронировать на потом)</span>
         </div>
       </div>
 
       <div className="flex flex-col md:grid md:grid-cols-6 md:grid-rows-3 gap-4 border-2 border-dark-border bg-dark-card/20 p-4 sm:p-6 rounded-3xl backdrop-blur-xl relative w-full box-border min-w-0">
         
-        <div className="hidden md:block absolute top-4 left-6 text-[10px] font-black uppercase tracking-widest text-slate-600 select-none">Панорамное фасадное остекление</div>
-        <div className="hidden md:block absolute bottom-4 right-6 text-[10px] font-black uppercase tracking-widest text-slate-600 select-none">Входная группа / Ресепшен</div>
+        <div className="hidden md:block absolute top-12 left-6 text-[10px] font-black uppercase tracking-widest text-slate-600 select-none pointer-events-none">Панорамное фасадное остекление</div>
+        <div className="hidden md:block absolute bottom-4 right-6 text-[10px] font-black uppercase tracking-widest text-slate-600 select-none pointer-events-none">Входная группа / Ресепшен</div>
 
         <ZoneContainer title="Тихий блок" badgeText="Quiet" badgeColor="purple" gridClasses="md:col-span-2 md:row-span-1">
           <DeskMapButton desk={desks.find(d => d.id.startsWith("22222222"))} iconType="monitor" />
