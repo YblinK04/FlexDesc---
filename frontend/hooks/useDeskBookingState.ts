@@ -50,14 +50,14 @@ export function useDeskBookingState(deskId: string) {
     setSelectionMessage(null);
     clearSubmitError();
 
-    if (anchorHour === hour && endHourExclusive === null) {
-      setAnchorHour(null);
-      return;
-    }
-
     if (anchorHour !== null && endHourExclusive !== null) {
       setAnchorHour(hour);
       setEndHourExclusive(null);
+      return;
+    }
+
+    if (anchorHour === hour && endHourExclusive === null) {
+      setAnchorHour(null);
       return;
     }
 

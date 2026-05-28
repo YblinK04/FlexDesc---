@@ -34,45 +34,39 @@ export function DesksInteractiveMap() {
           Схема Пространства FlexDesk
         </h1>
         <p className="mt-2 text-xs sm:text-sm font-medium text-slate-400 max-w-xl leading-relaxed">
-          Интерактивный чертеж коворкинга. Кликните по интересующему месту на карте, чтобы открыть календарную сетку бронирования.
+          Интерактивный чертеж коворкинга. Кликните по интересующему месту на карте для перехода к выбору часов.
         </p>
       </header>
 
       <div className="flex flex-wrap gap-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider border border-dark-border bg-dark-card/40 p-4 rounded-xl backdrop-blur-md w-full box-border">
         <div className="flex items-center gap-2.5">
           <span className="h-3.5 w-3.5 rounded-md border border-brand bg-dark-card shadow-[0_0_12px_#ec4899]" />
-          <span className="text-slate-100">Свободен / Кликабелен</span>
+          <span className="text-slate-100">Свободен / Доступен к выбору</span>
         </div>
         <div className="flex items-center gap-2.5">
           <span className="h-3.5 w-3.5 rounded-md border border-red-900 bg-red-950/40 shadow-inner" />
-          <span className="text-slate-500">Занят прямо сейчас (Но можно забронировать на потом)</span>
+          <span className="text-slate-500">Занят прямо сейчас (Кликните, чтобы занять на другое время)</span>
         </div>
       </div>
 
-      <div className="flex flex-col md:grid md:grid-cols-6 md:grid-rows-3 gap-4 border-2 border-dark-border bg-dark-card/20 p-4 sm:p-6 rounded-3xl backdrop-blur-xl relative w-full box-border min-w-0">
-        
-        <div className="hidden md:block absolute top-12 left-6 text-[10px] font-black uppercase tracking-widest text-slate-600 select-none pointer-events-none">Панорамное фасадное остекление</div>
-        <div className="hidden md:block absolute bottom-4 right-6 text-[10px] font-black uppercase tracking-widest text-slate-600 select-none pointer-events-none">Входная группа / Ресепшен</div>
+      <div className="hidden md:flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-600 border border-dark-border/30 px-6 py-2 rounded-xl bg-dark-card/10 select-none">
+        <span>↑ Окна фасада здания</span>
+        <span>↓ Главный вход / Ресепшен</span>
+      </div>
 
+      <div className="flex flex-col md:grid md:grid-cols-6 md:grid-rows-2 gap-4 border-2 border-dark-border bg-dark-card/20 p-4 sm:p-6 rounded-3xl backdrop-blur-xl w-full box-border min-w-0">
+        
         <ZoneContainer title="Тихий блок" badgeText="Quiet" badgeColor="purple" gridClasses="md:col-span-2 md:row-span-1">
           <DeskMapButton desk={desks.find(d => d.id.startsWith("22222222"))} iconType="monitor" />
         </ZoneContainer>
 
-        <div className="hidden md:flex col-span-1 row-span-1 items-center justify-center border border-dashed border-dark-border/30 rounded-2xl text-slate-600 text-[10px] font-bold font-mono select-none">
-          Коридор А
-        </div>
-
-        <ZoneContainer title="Переговорная комната" badgeText="Meeting Space" badgeColor="emerald" gridClasses="md:col-span-3 md:row-span-2">
+        <ZoneContainer title="Переговорная комната" badgeText="Meeting Space" badgeColor="emerald" gridClasses="md:col-span-4 md:row-span-2">
           <DeskMapButton desk={desks.find(d => d.id.startsWith("33333333"))} iconType="users" />
         </ZoneContainer>
 
-        <ZoneContainer title="Общий зал коворкинга" badgeText="Open Space" badgeColor="brand" gridClasses="md:col-span-3 md:row-span-2">
+        <ZoneContainer title="Общий зал коворкинга" badgeText="Open Space" badgeColor="brand" gridClasses="md:col-span-2 md:row-span-1">
           <DeskMapButton desk={desks.find(d => d.id.startsWith("11111111"))} iconType="flame" />
         </ZoneContainer>
-
-        <div className="hidden md:flex col-span-3 row-span-1 items-center justify-center border border-dashed border-dark-border/30 rounded-2xl text-slate-600 text-[10px] font-bold font-mono select-none">
-          Зона отдыха / Лаундж
-        </div>
 
       </div>
     </div>
