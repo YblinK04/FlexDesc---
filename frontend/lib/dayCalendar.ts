@@ -86,12 +86,16 @@ export function isRangeFree(
 }
 
 export function rangeFromInclusivePair(
-  a: number,
-  b: number,
+  hourA: number,
+  hourB: number,
 ): { from: number; toExclusive: number } {
+  const start = Math.min(hourA, hourB);
+  const end = Math.max(hourA, hourB);
+
+  
   return {
-    from: Math.min(a, b),
-    toExclusive: Math.max(a, b) + 1,
+    from: start,
+    toExclusive: end + 1,
   };
 }
 

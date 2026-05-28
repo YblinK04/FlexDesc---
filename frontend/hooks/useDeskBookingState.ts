@@ -45,7 +45,7 @@ export function useDeskBookingState(deskId: string) {
     return set as ReadonlySet<number>;
   }, [anchorHour, endHourExclusive]);
 
-  const handleSlotClick = useCallback((hour: number) => {
+   const handleSlotClick = useCallback((hour: number) => {
     if (blockedHours.has(hour)) return;
     setSelectionMessage(null);
     clearSubmitError();
@@ -58,6 +58,7 @@ export function useDeskBookingState(deskId: string) {
 
     if (anchorHour === hour && endHourExclusive === null) {
       setAnchorHour(null);
+      setEndHourExclusive(null);
       return;
     }
 
@@ -69,13 +70,13 @@ export function useDeskBookingState(deskId: string) {
 
     if (endHourExclusive === null) {
       const { from, toExclusive } = rangeFromInclusivePair(anchorHour, hour);
-      
+
       if (!isRangeFree(from, toExclusive, blockedHours)) {
         setAnchorHour(hour);
         setEndHourExclusive(null);
         return;
       }
-      
+
       setAnchorHour(from);
       setEndHourExclusive(toExclusive);
       return;
